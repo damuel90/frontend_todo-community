@@ -6,12 +6,14 @@ export const Context = createContext();
 const Provider = ({ children }) => {
     const [ userState, userDispatch ] = useReducer(user.reducer, user.initState);
     return (
-        <Context.Provider value={{
-            userState, 
-            userDispatch 
-        }}>
-            {children}
-        </Context.Provider>
+        <div style={{height:'100vh'}}>
+            <Context.Provider value={{
+                userState, 
+                userDispatch 
+            }}>
+                {children}
+            </Context.Provider>
+        </div>
     );
 };
 
