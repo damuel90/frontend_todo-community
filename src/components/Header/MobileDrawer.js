@@ -4,7 +4,7 @@ import { Avatar, Badge, Drawer, Menu, Button  } from 'antd';
 import { MenuFoldOutlined } from '@ant-design/icons';
 import { HOME, DASHBOARD } from '../../constants/routes';
 
-const MobileDrawer = ({ visible, onClose, navigation, navigate }) => {
+const MobileDrawer = ({ visible, onClose, navigation, navigate, out }) => {
     const [seleted, setSeleted] = useState(navigation);
 
     const onClick = ({ key }) => {
@@ -12,7 +12,6 @@ const MobileDrawer = ({ visible, onClose, navigation, navigate }) => {
             navigate(key);
         }
         setSeleted(key);
-        console.log(key)
     };
 
     return (
@@ -63,7 +62,7 @@ const MobileDrawer = ({ visible, onClose, navigation, navigate }) => {
             <Menu.Item key='user'>
                 <span style={{fontSize:'15px'}}>Perfil</span>
             </Menu.Item>
-            <Menu.Item key='logout'>
+            <Menu.Item key='logout' onClick={out}>
                 <span style={{fontSize:'15px'}}>Cerrar Sesión</span>
             </Menu.Item>
         </Menu>

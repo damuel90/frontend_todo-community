@@ -1,38 +1,28 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useContext } from 'react';
+import { useLocation, useHistory } from 'react-router-dom';
 import useBreakpoint from 'antd/lib/grid/hooks/useBreakpoint';
-import history from '../../navigation/history';
 import { Context } from '../../context';
 import PublicHeader from './PublicHeader';
 import PrivateHeader from './PrivateHeader';
 import getBreakpoint from '../../utils/getBreakpoint';
+import { logout } from '../../actions/user';
 
 const Header = () => {
-    const [ navigation, setNavigation ] = useState(history.location.pathname);
-    const { userState: { isAuthenticated } } = useContext(Context);
+    const { userState: { isAuthenticated }, userDispatch } = useContext(Context);
+    const { pathname: navigation } = useLocation();
+    const { push: navigate } = useHistory();
     const screens = useBreakpoint();
     const breakpoint = getBreakpoint(screens, true);
-
-    const onNavButtonEvent = (e) => {
-        e.preventDefault();
-        setNavigation(window.location.pathname)
-    };
-
-    useEffect(() => {
-        window.addEventListener('popstate', onNavButtonEvent);
-        return () => (
-            window.removeEventListener('popstate', onNavButtonEvent)
-        )
-    }, []);
-
-    const navigate = (route) => () => {
-        setNavigation(route);
-        history.push(route);
+    
+    const out = () => {
+        const action = logout();
+        userDispatch(action);
     };
 
     return (
         <header style={{...styles.header,padding:breakpoint<1?'0 10px':'0 20px'}}>
             {isAuthenticated ?
-                <PrivateHeader {...{ navigate, navigation, breakpoint }}/> 
+                <PrivateHeader {...{ navigate, navigation, breakpoint, out }}/> 
                 : 
                 <PublicHeader {...{ navigate, navigation, breakpoint }}/>
             }
@@ -48,6 +38,6 @@ const styles = {
         justifyContent:'space-between',
         alignItems:'center'
     }
-}
+};
 
 export default Header;

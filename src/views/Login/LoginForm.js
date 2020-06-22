@@ -1,15 +1,14 @@
-import React, { useState } from 'react';
-import PropTypes from 'prop-types';
+import React from 'react';
 import { Form, Input, Button, Card, Typography } from 'antd';
 import { MailOutlined, LockOutlined } from '@ant-design/icons';
 import validations from '../../validations';
+import api, { useApi } from '../../services/api';
 
-const LoginForm = props => {
-    const [loading, setLoading ] = useState(false);
+const LoginForm = ({ onLogin, toForgot }) => {
+    const [ loading, submit ] = useApi(api.login);
 
-    const onFinish = values => {
-        setLoading(true)
-        console.log(values);
+    const onFinish = async (values) => {
+        submit(values, onLogin);
     };
 
     return (
@@ -31,23 +30,19 @@ const LoginForm = props => {
                     <Input.Password prefix={<LockOutlined />} type="password" placeholder="Contraseña" />
                 </Form.Item>
                 <Form.Item style={{marginBottom:5}}>
-                    <Button loading={loading} type="primary" htmlType="submit" style={{width:'100%'}}>
-                        {!loading && 'Iniciar Sesión'}
+                    <Button disabled={loading} type="primary" htmlType="submit" style={{width:'100%'}}>
+                        Iniciar Sesión
                     </Button>
                 </Form.Item>
                 <Form.Item>
                     ¿Olvidaste tu contraseña?
-                    <Button style={{float:'right',fontSize:'14px',padding:0,margin:0,height:'auto'}} type='link'>
+                    <Button onClick={toForgot} style={{float:'right',fontSize:'14px',padding:0,margin:0,height:'auto'}} type='link'>
                         Recuperar Contraseña
                     </Button>
                 </Form.Item>
             </Form>
         </Card>
     );
-};
-
-LoginForm.propTypes = {
-    
 };
 
 export default LoginForm;

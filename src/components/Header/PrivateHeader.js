@@ -6,10 +6,10 @@ import { HOME, DASHBOARD } from '../../constants/routes';
 import MobileDrawer from './MobileDrawer';
 
 
-const PrivateHeader = ({ navigation, navigate, breakpoint }) => {  
+const PrivateHeader = ({ navigation, navigate, breakpoint, out }) => {  
     const [showDrawer, setShowDrawer] = useState(false);  
     const onShowDrawer = () => setShowDrawer(!showDrawer);
-
+    
     if(breakpoint < 1){
         return (
             <Fragment>
@@ -19,7 +19,7 @@ const PrivateHeader = ({ navigation, navigate, breakpoint }) => {
                 <MobileDrawer 
                     visible={showDrawer} 
                     onClose={onShowDrawer} 
-                    {...{navigate, navigation}}
+                    {...{navigate, navigation, out}}
                 />
             </Fragment>
         )
@@ -32,10 +32,10 @@ const PrivateHeader = ({ navigation, navigate, breakpoint }) => {
                 <span style={{fontSize:'12px'}}>community</span>
             </div>
             <div>
-                <Button size='small' type='link' disabled={navigation===HOME} onClick={navigate(HOME)}>
+                <Button size='small' type='link' disabled={navigation===HOME} onClick={()=>navigate(HOME)}>
                     <span style={{fontSize:'15px'}}>Proyectos públicos</span>
                 </Button>
-                <Button size='small' type='link' disabled={navigation===DASHBOARD} onClick={navigate(DASHBOARD)}>
+                <Button size='small' type='link' disabled={navigation===DASHBOARD} onClick={()=>navigate(DASHBOARD)}>
                     <span style={{fontSize:'15px'}}>Tablero</span>
                 </Button>
                 <Popover 
@@ -47,12 +47,12 @@ const PrivateHeader = ({ navigation, navigate, breakpoint }) => {
                                 <span style={{fontSize:'15px'}}>Perfil</span>
                             </Button>
                             <Button size='middle' block type='text'>
-                                <span style={{fontSize:'15px'}}>Cerrar Sesión</span>
-                            </Button>
-                            <Button size='middle' block type='text'>
                                 <Badge dot={true} >
                                     <span style={{fontSize:'15px'}}>Notificaciones</span>
                                 </Badge>
+                            </Button>
+                            <Button size='middle' block type='text' onClick={out}>
+                                <span style={{fontSize:'15px'}}>Cerrar Sesión</span>
                             </Button>
                         </div>
                     } 
@@ -75,5 +75,49 @@ PrivateHeader.propTypes = {
     navigate: PropTypes.func.isRequired,
     breakpoint: PropTypes.number
 };
+
+/*
+<Fragment>
+            <div style={{display:'flex',bottom:'7px'}}>
+                <span style={{fontSize:'25px',fontWeight:'bold'}}>To Do</span>
+                <span style={{fontSize:'12px'}}>community</span>
+            </div>
+            <div>
+                <Button size='small' type='link' disabled={navigation===HOME} onClick={()=>navigate(HOME)}>
+                    <span style={{fontSize:'15px'}}>Proyectos públicos</span>
+                </Button>
+                <Button size='small' type='link' disabled={navigation===DASHBOARD} onClick={()=>navigate(DASHBOARD)}>
+                    <span style={{fontSize:'15px'}}>Tablero</span>
+                </Button>
+                <Popover 
+                    placement='bottomRight' 
+                    trigger='click'
+                    content={
+                        <div style={{width:150,padding:0}}>
+                            <Button size='middle' block type='text'>
+                                <span style={{fontSize:'15px'}}>Perfil</span>
+                            </Button>
+                            <Button size='middle' block type='text'>
+                                <Badge dot={true} >
+                                    <span style={{fontSize:'15px'}}>Notificaciones</span>
+                                </Badge>
+                            </Button>
+                            <Button size='middle' block type='text' onClick={out}>
+                                <span style={{fontSize:'15px'}}>Cerrar Sesión</span>
+                            </Button>
+                        </div>
+                    } 
+                >
+                    <Badge dot={true} offset={[-5, 5]}>
+                        <Avatar
+                            size={45} 
+                            style={{bottom:'3px',backgroundColor:'#fafafa',marginLeft:'5px',cursor:'pointer'}}
+                            src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
+                        />
+                    </Badge>
+                </Popover>   
+            </div>           
+        </Fragment>
+*/
 
 export default PrivateHeader;
