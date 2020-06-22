@@ -1,15 +1,13 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Form, Input, Button, Card, Typography } from 'antd';
 import { UserOutlined, LockOutlined, MailOutlined } from '@ant-design/icons';
 import validations from '../../validations';
+import api, { useApi } from '../../services/api';
 
-const SignupForm = props => {
-    const [loading, setLoading ] = useState(false);
+const SignupForm = ({ onSignup }) => {
+    const [ loading, submit ] = useApi(api.signup);
 
-    const onFinish = values => {
-        setLoading(true)
-        console.log(values);
-    };
+    const onFinish = values => submit(values, onSignup);
 
     return (
         <Card style={{maxWidth:400,margin:'0 auto'}}>
@@ -20,7 +18,7 @@ const SignupForm = props => {
                 size='large'
                 name="normal_login"
                 initialValues={{ remember: true }}
-                style={{maxWidth:'320px', margin: '0 auto'}}
+                style={{maxWidth:'320px',margin:'0 auto'}}
                 onFinish={onFinish}
             >
                 <Form.Item name="fullName" rules={validations.fullName}>
@@ -36,8 +34,8 @@ const SignupForm = props => {
                     <Input.Password prefix={<LockOutlined />} type="password" placeholder="Repetir Contraseña" />
                 </Form.Item>
                 <Form.Item style={{marginBottom:5}}>
-                    <Button loading={loading} type="primary" htmlType="submit" style={{width:'100%'}}>
-                        {!loading && 'Registrarse'}
+                    <Button disabled={loading} type="primary" htmlType="submit" style={{width:'100%'}}>
+                        Registrarse
                     </Button>
                 </Form.Item>
                 <Form.Item>
