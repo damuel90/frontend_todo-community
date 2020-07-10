@@ -1,20 +1,29 @@
-import React, { createContext, useReducer } from 'react';
-import user from '../reducers/user';
+import React, { createContext, useReducer, useContext } from 'react';
+import User from '../reducers/user';
+import { Layout } from 'antd';
 
-export const Context = createContext();
+const Context = createContext();
 
 const Provider = ({ children }) => {
-    const [ userState, userDispatch ] = useReducer(user.reducer, user.initState);
+    const [ user, userDispatch ] = useReducer(User.reducer, User.initState);
+    
     return (
-        <div style={{height:'100vh'}}>
+        <Layout>
             <Context.Provider value={{
-                userState, 
-                userDispatch 
+                user, 
+                userDispatch
             }}>
                 {children}
             </Context.Provider>
-        </div>
+        </Layout>
     );
 };
 
+export const useStore = () => {
+    const { user, userDispatch } = useContext(Context);
+    return {
+        user,
+        userDispatch
+    }
+}
 export default Provider;

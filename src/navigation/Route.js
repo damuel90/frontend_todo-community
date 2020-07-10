@@ -1,19 +1,19 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
-import { Context } from '../context';
-import { LANDING, DASHBOARD  } from '../constants/routes';
+import { useStore } from '../context';
+import { LANDING, HOME  } from '../constants/routes';
 
 const Public = ({ component: Component }) => {
-	const { userState: { isAuthenticated } } = useContext(Context)
+	const { user: { isAuthenticated } } = useStore()
 	return(
 		<Route 
-			component = {props => !isAuthenticated ? <Component {...props} /> : <Redirect to={DASHBOARD} />}
+			component = {props => !isAuthenticated ? <Component {...props} /> : <Redirect to={HOME} />}
 		/>
 	)
 };
 
 const Private = ({ component: Component }) => {
-	const { userState: { isAuthenticated } } = useContext(Context);
+	const { user: { isAuthenticated } } = useStore();
 	return(
 		<Route 
 			component = {props => isAuthenticated ? <Component {...props} /> : <Redirect to={LANDING} />}
