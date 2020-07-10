@@ -2,10 +2,11 @@ import React from 'react';
 import { Form, Input, Button, Card, Typography } from 'antd';
 import { MailOutlined, LockOutlined } from '@ant-design/icons';
 import validations from '../../validations';
-import api, { useApi } from '../../services/api';
+import api from '../../services/api';
+import useApi from '../../customHooks/useApi';
 
 const LoginForm = ({ onLogin, toForgot }) => {
-    const [ loading, submit ] = useApi(api.login);
+    const [submit, loading] = useApi(api.login);
 
     const onFinish = async (values) => {
         submit(values, onLogin);

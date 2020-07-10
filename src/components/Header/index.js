@@ -1,14 +1,14 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { useLocation, useHistory } from 'react-router-dom';
 import useBreakpoint from 'antd/lib/grid/hooks/useBreakpoint';
-import { Context } from '../../context';
+import { useStore } from '../../context';
 import PublicHeader from './PublicHeader';
 import PrivateHeader from './PrivateHeader';
 import getBreakpoint from '../../utils/getBreakpoint';
 import { logout } from '../../actions/user';
 
 const Header = () => {
-    const { userState: { isAuthenticated }, userDispatch } = useContext(Context);
+    const { user: { isAuthenticated }, userDispatch } = useStore();
     const { pathname: navigation } = useLocation();
     const { push: navigate } = useHistory();
     const screens = useBreakpoint();
@@ -20,13 +20,15 @@ const Header = () => {
     };
 
     return (
-        <header style={{...styles.header,padding:breakpoint<1?'0 10px':'0 20px'}}>
-            {isAuthenticated ?
-                <PrivateHeader {...{ navigate, navigation, breakpoint, out }}/> 
-                : 
-                <PublicHeader {...{ navigate, navigation, breakpoint }}/>
-            }
-        </header>
+        <section style={{position:'fixed',top:0,left:0,width:'100%',zIndex:1000}}>
+            <header style={{...styles.header,padding:breakpoint<1?'0 10px':'0 20px'}}>
+                {isAuthenticated ?
+                    <PrivateHeader {...{ navigate, navigation, breakpoint, out }}/> 
+                    : 
+                    <PublicHeader {...{ navigate, navigation, breakpoint }}/>
+                }
+            </header>
+        </section>
     );
 };
 
@@ -36,7 +38,8 @@ const styles = {
         height:'60px',
         display:'flex',
         justifyContent:'space-between',
-        alignItems:'center'
+        alignItems:'center',
+        boxShadow:'0px 1px 5px rgba(0,0,0,.3)',
     }
 };
 

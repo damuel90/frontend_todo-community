@@ -2,10 +2,11 @@ import React from 'react';
 import { Form, Input, Button, Card, Typography } from 'antd';
 import { UserOutlined, LockOutlined, MailOutlined } from '@ant-design/icons';
 import validations from '../../validations';
-import api, { useApi } from '../../services/api';
+import api from '../../services/api';
+import useApi from '../../customHooks/useApi';
 
 const SignupForm = ({ onSignup }) => {
-    const [ loading, submit ] = useApi(api.signup);
+    const [submit, loading] = useApi(api.signup);
 
     const onFinish = values => submit(values, onSignup);
 
