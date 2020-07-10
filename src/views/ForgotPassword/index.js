@@ -8,7 +8,8 @@ const ForgotPassword = () => {
             style={{
                 backgroundColor:'#fafafa',
                 width: '100%',
-                height: 'calc(100% - 60px',
+                height:'calc(100vh - 60px)',
+                marginTop:'60px',
                 backgroundRepeat: 'no-repeat',
                 backgroundPosition: 'center',
                 backgroundImage:`url(${background})`,
