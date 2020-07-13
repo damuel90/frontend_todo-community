@@ -9,7 +9,7 @@ const defaultState = {
   
 const initState = getStorageUser() || defaultState;
   
-const reducer = (state = initState, action) => {
+const user = (state = initState, action) => {
     switch (action.type) {
         case LOGIN:
             setStorageUser(action.payload);
@@ -18,11 +18,8 @@ const reducer = (state = initState, action) => {
             deleteStorage();
             return defaultState;
         default:
-            throw new Error();
+            return state;
     }
 };
 
-export default {
-    reducer,
-    initState
-};
+export default user;

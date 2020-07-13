@@ -4,14 +4,22 @@ import { Button, Typography, Divider, Card } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import ProjectCard from './ProjectCard';
 
-const ProjectList = ({ created, collaborated, onModal, onDelete }) => {
+const ProjectList = ({ created, collaborated, onModal, onSelect, onDelete }) => {
     const handlePlus = () => onModal(true);
 
     const handleInvitation = () => {};
 
-    const handleUpdate = (project) => () => onModal(true, project);
+    const handleUpdate = (project) => (e) => {
+        e.stopPropagation();
+        onModal(true, project);
+    };
 
-    const handleDelete = (project) => () => onDelete(project)
+    const handleDelete = (project) => (e) => {
+        e.stopPropagation();
+        onDelete(project);
+    };
+
+    const handleSelect = (project) => () => onSelect(project);
 
     return (
         <section className='home_projectList'>
@@ -25,6 +33,8 @@ const ProjectList = ({ created, collaborated, onModal, onDelete }) => {
                     handleInvitation={handleInvitation}
                     handleUpdate={handleUpdate(project)}
                     handleDelete={handleDelete(project)}
+                    handleSelect={handleSelect(project)}
+                    created={true}
                 />
             ))}
             <Card.Grid className='home_plus'>
@@ -38,9 +48,7 @@ const ProjectList = ({ created, collaborated, onModal, onDelete }) => {
                 <ProjectCard 
                     key={project._id} 
                     project={project} 
-                    handleInvitation={handleInvitation}
-                    handleUpdate={handleUpdate(project)}
-                    handleDelete={handleDelete(project)}
+                    created={false}
                 />
             ))}
         </section>
@@ -51,7 +59,8 @@ const ProjectList = ({ created, collaborated, onModal, onDelete }) => {
 ProjectList.propTypes = {
     created: PropTypes.array.isRequired, 
     collaborated: PropTypes.array.isRequired, 
-    onModal: PropTypes.func.isRequired, 
+    onModal: PropTypes.func.isRequired,
+    onSelect: PropTypes.func.isRequired, 
     onDelete: PropTypes.func.isRequired
 };
 

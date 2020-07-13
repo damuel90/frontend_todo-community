@@ -4,11 +4,11 @@ import { Avatar, Badge, Button, Popover, Tooltip, AutoComplete, Input } from 'an
 import { MenuUnfoldOutlined, PlusOutlined, BellFilled, ProjectFilled, NotificationFilled } from '@ant-design/icons';
 import { HOME } from '../../constants/routes';
 import MobileDrawer from './MobileDrawer';
-import { useStore } from '../../context';
+import useStore from '../../customHooks/useStore';
 
 
 const PrivateHeader = ({ navigation, navigate, breakpoint, out }) => {  
-    const { user } = useStore();
+    const [{ user }] = useStore();
     const [showDrawer, setShowDrawer] = useState(false);  
     const onShowDrawer = () => setShowDrawer(!showDrawer);
     

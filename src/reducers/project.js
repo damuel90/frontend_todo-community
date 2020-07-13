@@ -1,33 +1,42 @@
 import { 
-    PROJECT_CREATE, 
-    PROJECT_GET, 
-    PROJECT_UPDATE,
-    PROJECT_DELETE 
+    SELECT_PROJECT, 
+    UPDATE_PROJECT, 
+    DELETE_PROJECT, 
+    LOGOUT 
 } from '../constants/actions';
+import { 
+    setStorageProject, 
+    getStorageProject, 
+    removeStorageProject 
+} from '../services/storage';
 
-const initState = [];
+const defaultState = null;
 
-const reducer = (state = initState, action) => {
+const initState = getStorageProject() || defaultState;
+
+const project = (state=initState, action) => {
     switch (action.type) {
-        case PROJECT_CREATE:
-            return [...state, action.payload];
-        case PROJECT_GET:
+        case SELECT_PROJECT:
+            setStorageProject(action.payload);
             return action.payload;
-        case PROJECT_UPDATE:
-            return state.reduce((acum, elem) => {
-                if(elem._id === action.payload._id){
-                     return [...acum, {...elem, ...action.payload}];
-                }
-                return [...acum, elem];
-            }, []);
-        case PROJECT_DELETE:
-            return state.filter((elem) => elem._id !== action.payload);
+        case UPDATE_PROJECT:
+            if(state._id === action.payload._id){
+                const updatedState = {...state, ...action.payload};
+                setStorageProject(updatedState);
+                return updatedState;
+            }
+            return state;
+        case DELETE_PROJECT:
+            if(state._id === action.payload){
+                removeStorageProject();
+                return defaultState;
+            }
+            return state;
+        case LOGOUT:
+            return defaultState;
         default:
-            throw new Error();
+            return state;
     }
 };
 
-export default {
-    initState,
-    reducer
-};
+export default project;

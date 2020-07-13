@@ -1,6 +1,6 @@
 import React from 'react';
 import { login } from '../../actions/user';
-import { useStore } from '../../context';
+import useStore from '../../customHooks/useStore';
 import { Row, Col } from 'antd';
 import useBreakpoint from 'antd/lib/grid/hooks/useBreakpoint';
 import getBreakpoint from '../../utils/getBreakpoint';
@@ -8,7 +8,7 @@ import background from '../../assets/images/sign_in.svg'
 import SignupForm from './SignupForm';
 
 const Signup = () => {
-    const { userDispatch } = useStore()
+    const [, dispatch] = useStore();
     const screens = useBreakpoint();
     const breakpoint = getBreakpoint(screens, true);
 
@@ -22,7 +22,7 @@ const Signup = () => {
         const [name='', lastName=''] = data.fullName.toUpperCase().split(' ');
         const shortName = `${name.charAt(0)}${lastName.charAt(0)}`;
         const action = login({...data, shortName, isAuthenticated: true});
-        userDispatch(action);
+        dispatch(action);
     };
 
     return (

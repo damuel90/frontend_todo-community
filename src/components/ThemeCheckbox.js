@@ -6,7 +6,7 @@ const ThemeCheckbox = ({ onChange, themes, value }) => {
     const [select, setSelect] = useState(value);
     
     useEffect(() => {
-        onChange(select);
+        if(select) onChange(select);
     }, []);
 
     useEffect(() => {

@@ -1,5 +1,6 @@
 import axios from 'axios';
 import normalizedResponse from '../utils/normalizedResponse';
+
 const urlBase = 'http://localhost:8888/v1/api';
 
 const signup = async ({ fullName, email, password })=>{
@@ -24,7 +25,7 @@ const login = async ({ email, password })=>{
 	}))
 };
 
-const createProject = async ({ token, name, type, description, theme })=>{
+const createProject = async ({ name, type, description, theme }, token)=>{
 	return await normalizedResponse(axios({
 		method:'post',
 		url:`${urlBase}/project`,
@@ -38,7 +39,7 @@ const createProject = async ({ token, name, type, description, theme })=>{
 	}));
 };
 
-const getUserProjects = async ({ token }) => {
+const getUserProjects = async (token) => {
 	return await normalizedResponse(axios({
 		method:'get',
 		url:`${urlBase}/project`,
@@ -46,7 +47,7 @@ const getUserProjects = async ({ token }) => {
 	}))
 };
 
-const updateProject = async ({ _id, token, name, type, description, theme })=>{
+const updateProject = async ({ _id, name, type, description, theme }, token)=>{
 	return await normalizedResponse(axios({
 		method:'patch',
 		url:`${urlBase}/project`,
@@ -61,7 +62,7 @@ const updateProject = async ({ _id, token, name, type, description, theme })=>{
 	}))
 };
 
-const deleteProject = async ({ token, projectId })=>{
+const deleteProject = async (projectId, token)=>{
 	return await normalizedResponse(axios({
 		method:'delete',
 		url:`${urlBase}/project/${projectId}`,

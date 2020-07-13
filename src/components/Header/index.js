@@ -1,14 +1,14 @@
 import React from 'react';
 import { useLocation, useHistory } from 'react-router-dom';
 import useBreakpoint from 'antd/lib/grid/hooks/useBreakpoint';
-import { useStore } from '../../context';
+import useStore from '../../customHooks/useStore';
 import PublicHeader from './PublicHeader';
 import PrivateHeader from './PrivateHeader';
 import getBreakpoint from '../../utils/getBreakpoint';
 import { logout } from '../../actions/user';
 
 const Header = () => {
-    const { user: { isAuthenticated }, userDispatch } = useStore();
+    const [{ user: { isAuthenticated } }, dispatch] = useStore();
     const { pathname: navigation } = useLocation();
     const { push: navigate } = useHistory();
     const screens = useBreakpoint();
@@ -16,9 +16,9 @@ const Header = () => {
     
     const out = () => {
         const action = logout();
-        userDispatch(action);
+        dispatch(action);
     };
-
+    
     return (
         <section style={{position:'fixed',top:0,left:0,width:'100%',zIndex:1000}}>
             <header style={{...styles.header,padding:breakpoint<1?'0 10px':'0 20px'}}>

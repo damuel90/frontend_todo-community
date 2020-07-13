@@ -1,6 +1,6 @@
 import React from 'react';
 import { login } from '../../actions/user';
-import { useStore } from '../../context';
+import useStore from '../../customHooks/useStore';
 import { Row, Col } from 'antd';
 import { FORGOTPASSWORD } from '../../constants/routes';
 import useBreakpoint from 'antd/lib/grid/hooks/useBreakpoint';
@@ -9,7 +9,7 @@ import background from '../../assets/images/organizing_projects.svg'
 import LoginForm from './LoginForm';
 
 const Login = ({ history }) => {
-    const { userDispatch } = useStore()
+    const [, dispatch] = useStore();
     const screens = useBreakpoint();
     const breakpoint = getBreakpoint(screens, true);
 
@@ -25,7 +25,7 @@ const Login = ({ history }) => {
         const [name='', lastName=''] = data.fullName.toUpperCase().split(' ');
         const shortName = `${name.charAt(0)}${lastName.charAt(0)}`;
         const action = login({...data, shortName, isAuthenticated: true});
-        userDispatch(action);
+        dispatch(action);
     };
 
     return (

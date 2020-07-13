@@ -9,12 +9,12 @@ const ProjectModal = ({ loading, showModal, onModal, createProject, updateProjec
         onModal(false);
     };
 
-    const onFinish = (values) => {
+    const onFinish = async (values) => {
         if(showModal.project){
             const { _id } = showModal.project;
-            updateProject({...values, _id})
+            updateProject({...values, _id});
         } else {
-            createProject(values)
+            createProject(values);
         }
     };
 
